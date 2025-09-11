@@ -1,0 +1,21 @@
+
+CREATE TABLE Produto(
+	id SERIAL,
+	descricao VARCHAR(500) NOT NULL,
+	preco NUMERIC (7,2),
+	status BOOLEAN,
+	CONSTRAINT pk_id PRIMARY KEY (id)
+);
+
+
+CREATE TABLE Funcionario(
+  id serial,
+  nome VARCHAR (50) Not null,
+  cargo  VARCHAR (50) Not null,
+  salario Numeric (6,2),
+  CONSTRAINT pk_funcionario PRIMARY KEY (id)
+);
+
+drop table funcionario
+
+select * from funcionario

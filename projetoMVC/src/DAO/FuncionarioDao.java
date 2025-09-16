@@ -27,7 +27,7 @@ public class FuncionarioDao implements GenericDAO{
     }
 
     @Override
-    public Object getByID(int id) {
+    public Object getById(int id) {
         return null;
     }
 

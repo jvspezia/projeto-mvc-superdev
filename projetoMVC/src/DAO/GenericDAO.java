@@ -4,13 +4,13 @@ public interface GenericDAO {
 
     public  List<Object> getAll();
 
-  public  Object getByID(int id);
+  public  Object getById(int id);
 
     public  Boolean insert (Object object);
 
     public  Boolean update (Object object);
 
-    public  void delete (int id);
+    public void delete(int id);
 
 
 }

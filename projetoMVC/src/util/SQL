@@ -19,3 +19,8 @@ CREATE TABLE Funcionario(
 drop table funcionario
 
 select * from funcionario
+
+
+
+
+SELECT * FROM produto WHERE descricao ILIKE('')

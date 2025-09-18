@@ -53,12 +53,8 @@ public class ProdutoDAO implements GenericDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                ConnectionFactory.closeConnection(conn, stmt, rs);
-            } catch (Exception ex) {
-                System.out.println("Problemas ao fechar conexão. Erro: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+            this.closeConnection(stmt,rs);
+
         }
         return produtoList;
     }
@@ -87,12 +83,8 @@ public class ProdutoDAO implements GenericDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                ConnectionFactory.closeConnection(conn, stmt, rs);
-            } catch (Exception ex) {
-                System.out.println("Problemas ao fechar conexão. Erro: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+            this.closeConnection(stmt,rs);
+
         }
 
         return produtoEncontrado;
@@ -119,15 +111,10 @@ public class ProdutoDAO implements GenericDAO {
         }catch (SQLException e){
             e.printStackTrace();
         } finally {
-            try {
-                ConnectionFactory.closeConnection(conn, stmt, rs);
-            } catch (Exception ex) {
-                System.out.println("Problemas ao fechar conexão. Erro: " + ex.getMessage());
-                ex.printStackTrace();
-            }
-        }
+            this.closeConnection(stmt, rs);
 
-        return produtoList;
+        }
+            return produtoList;
     }
 
     @Override
@@ -161,19 +148,39 @@ public class ProdutoDAO implements GenericDAO {
             e.printStackTrace();
             return false;
         } finally {
-            try {
-                ConnectionFactory.closeConnection(conn, stmt);
-            } catch (Exception ex) {
-                System.out.println("Problemas ao fechar conexão. Erro: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+        this.closeConnection(stmt,null);
         }
     }
 
     @Override
     public Boolean update(Object object) {
-        return null;
+        Produto produto =  (Produto) object;
+        PreparedStatement stmt = null;
+        String sql = "UPDATE produto SET" +
+                "    descricao = ?," +
+                "    preco = ?," +
+                "  status = ? " +
+                "   WHERE " +
+                "    Id = ?;";
+
+        try {
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, produto.getDescricao());
+            stmt.setDouble(2, produto.getPreco());
+            stmt.setBoolean(3,produto.isStatus());
+            stmt.setInt(4,produto.getId());
+            stmt.execute();
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }  finally {
+        this.closeConnection(stmt,null);
     }
+    }
+
+
+
 
     @Override
     public void delete(int id) {
@@ -186,12 +193,17 @@ public class ProdutoDAO implements GenericDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                ConnectionFactory.closeConnection(conn, stmt);
-            } catch (Exception ex) {
-                System.out.println("Problemas ao fechar conexão. Erro: " + ex.getMessage());
-                ex.printStackTrace();
-            }
-        }
+          this.closeConnection(stmt, null);
+    }}
+
+
+private  void closeConnection(PreparedStatement stmt, ResultSet rs){
+    try {
+        ConnectionFactory.closeConnection(conn, stmt, rs);
+    } catch (Exception ex) {
+        System.out.println("Problemas ao fechar conexão. Erro: " + ex.getMessage());
+        ex.printStackTrace();
     }
 }
+}
+
